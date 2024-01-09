@@ -2,22 +2,26 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { irParaCadastro } from '../../Routes/coordinator'
 import { ContainerForm, ContainerLogin, Input } from './styled'
+import useForm from '../../hooks/useForm';
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+
+const { form, onChangeInputs, limparInputs} = useForm(
+  {
+  email: "",
+  password : ""
+}
+);
+ 
   const navigate = useNavigate()
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value)
-  }
-  const onChangeSenha = (e) => {
-    setPassword(e.target.value)
-  }
+
 
   const enviaLogin = (e) => {
+    alert('funcionou')
     e.preventDefault()
-    console.log({ email, password })
+    console.log({ form })
+    limparInputs()
   }
 
   return (
@@ -25,17 +29,25 @@ export default function Login() {
       <ContainerForm onSubmit={enviaLogin}>
         <label htmlFor='email'>Email:</label>
         <Input
+          name='email' 
           id='email'
-          value={email}
-          onChange={onChangeEmail}
+          value={form.email}
+          onChange={onChangeInputs}
           placeholder="nome@email.com"
+          type='email'
+          required
         />
         <label htmlFor='senha'>Senha:</label>
         <Input
           id='senha'
-          value={password}
-          onChange={onChangeSenha}
+          name='password'
+          value={form.password}
+          onChange={onChangeInputs}
           placeholder="Digite sua senha"
+          type='password'
+          required
+          //pattern='[a-z]d{3}}'
+          title='digite 3 numeros'
         />
         <button>Fazer Login</button>
       </ContainerForm>
